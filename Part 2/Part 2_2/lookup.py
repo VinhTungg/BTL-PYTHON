@@ -1,17 +1,7 @@
-# -*- coding: utf-8 -*-
 """
-Tra cứu dữ liệu cầu thủ qua FastAPI bằng requests.
-
-Cú pháp:
   python lookup.py --name "Bukayo Saka"
   python lookup.py --club "Arsenal"
-
-Tuỳ chọn:
-  --base-url  URL server FastAPI (mặc định http://127.0.0.1:8000)
-  --limit     Giới hạn số dòng cho truy vấn theo tên (mặc định 1000)
-  --max-cols  Số cột tối đa in ra màn hình (CSV luôn ghi full cột)
 """
-
 import argparse
 import csv
 import sys
@@ -21,7 +11,6 @@ from urllib.parse import quote
 
 DEFAULT_BASE_URL = "http://127.0.0.1:8000"
 
-# ---------- tiện ích ----------
 import re
 import unicodedata
 
@@ -29,10 +18,8 @@ def slugify(s: str) -> str:
     s = (s or "").strip()
     # xử lý riêng đ/Đ
     s = s.replace("đ", "d").replace("Đ", "D")
-    # bóc dấu Unicode về ASCII
     s = unicodedata.normalize("NFKD", s)
     s = s.encode("ascii", "ignore").decode("ascii")
-    # thành dạng file-safe
     s = s.lower()
     s = re.sub(r"[^a-z0-9]+", "_", s)
     s = re.sub(r"_+", "_", s).strip("_")
@@ -60,14 +47,12 @@ def print_table(rows: List[Dict], max_cols: int = 12) -> None:
     cols = choose_columns(rows, max_cols)
     # độ rộng cột
     widths = {c: max(len(str(c)), *(len(str(r.get(c, ""))) for r in rows)) for c in cols}
-    widths = {c: min(w, 30) for c, w in widths.items()}  # cắt bớt cho gọn terminal
+    widths = {c: min(w, 30) for c, w in widths.items()}
 
-    # header
     line = " | ".join(f"{c[:widths[c]].ljust(widths[c])}" for c in cols)
     print(line)
     print("-" * len(line))
 
-    # rows
     for r in rows:
         cells = []
         for c in cols:
@@ -91,7 +76,7 @@ def write_csv(rows: List[Dict], filename: str) -> str:
         writer.writerows(rows)
     return filename
 
-# ---------- gọi API ----------
+# gọi API
 def query_by_name(base_url: str, name: str, limit: int) -> List[Dict]:
     url = f"{base_url.rstrip('/')}/players"
     params = {"name": name, "limit": limit, "offset": 0}
@@ -121,7 +106,7 @@ def query_by_club(base_url: str, club: str) -> List[Dict]:
 def main():
     parser = argparse.ArgumentParser(description="Tra cứu dữ liệu cầu thủ qua FastAPI.")
     parser.add_argument("--name", type=str, help="Tên cầu thủ (LIKE).")
-    parser.add_argument("--club", type=str, help="Tên câu lạc bộ (khớp chính xác mặc định).")
+    parser.add_argument("--club", type=str, help="Tên câu lạc bộ.")
     parser.add_argument("--base-url", type=str, default=DEFAULT_BASE_URL, help="URL FastAPI (mặc định http://127.0.0.1:8000)")
     parser.add_argument("--limit", type=int, default=1000, help="Giới hạn khi tìm theo tên (mặc định 1000).")
     parser.add_argument("--max-cols", type=int, default=12, help="Số cột tối đa in ra màn hình (CSV luôn ghi full).")
