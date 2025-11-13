@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 import sys
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
@@ -8,7 +7,6 @@ if hasattr(sys.stderr, "reconfigure"):
 import time
 import random
 import sqlite3
-import re
 from collections import defaultdict
 
 import pandas as pd
@@ -41,14 +39,15 @@ STAT_PAGES = {
 
 
 def build_driver():
-    print("🔧 Đang khởi tạo Chrome driver...")
+    """Khởi tạo Chrome driver với undetected_chromedriver"""
+    print("Đang khởi tạo Chrome driver...")
     try:
         driver = uc.Chrome(headless=False, use_subprocess=False, version_main=141)
-        print("✅ Driver đã khởi tạo thành công (Chrome v141)!")
+        print("Driver đã khởi tạo thành công (Chrome v141)!")
     except Exception:
-        print("⚠️ Không thể khởi tạo với version 141, thử auto detect...")
+        print("Không thể khởi tạo với version 141, thử auto detect...")
         driver = uc.Chrome(headless=False, use_subprocess=False)
-        print("✅ Driver auto detect thành công!")
+        print("Driver auto detect thành công!")
     driver.set_page_load_timeout(90)
     driver.set_script_timeout(90)
     driver.maximize_window()
@@ -56,10 +55,12 @@ def build_driver():
 
 
 def human_pause(a=0.7, b=1.6):
+    """Tạo khoảng dừng ngẫu nhiên giống hành vi người dùng"""
     time.sleep(random.uniform(a, b))
 
 
 def extract_table_html_from_container(driver, container_id, expected_table_id):
+    """Trích xuất HTML của bảng từ container"""
     try:
         container = driver.find_element(By.ID, container_id)
         html = container.get_attribute("innerHTML")
@@ -77,11 +78,12 @@ def extract_table_html_from_container(driver, container_id, expected_table_id):
                     return str(tbl)
         return None
     except Exception as e:
-        print(f"⚠️ Lỗi khi tách bảng {expected_table_id}: {e}")
+        print(f"Lỗi khi tách bảng {expected_table_id}: {e}")
         return None
 
 
 def parse_table_html(table_html, page_tag):
+    """Parse HTML của bảng thành danh sách dictionary"""
     rows_data = []
     soup = BeautifulSoup(table_html, "lxml")
     table = soup.find("table")
@@ -138,6 +140,7 @@ def parse_table_html(table_html, page_tag):
 
 
 def merge_stats(master, rows, page_tag):
+    """Gộp dữ liệu từ các trang khác nhau vào master dictionary"""
     for r in rows:
         player = r.get("player")
         squad = r.get("squad") or r.get("team")
@@ -167,6 +170,7 @@ def merge_stats(master, rows, page_tag):
 
 
 def as_int_safe(x):
+    """Chuyển đổi giá trị sang integer một cách an toàn"""
     try:
         return int(str(x).replace(",", ""))
     except Exception:
@@ -174,7 +178,8 @@ def as_int_safe(x):
 
 
 def filter_min_over_90(master):
-    print("\n🔍 Dò cột 'minutes' để lọc > 90...")
+    """Lọc các cầu thủ có số phút thi đấu > ngưỡng tối thiểu"""
+    print("\nDò cột 'minutes' để lọc > 90...")
     
     all_keys = set()
     for data in master.values():
@@ -182,7 +187,7 @@ def filter_min_over_90(master):
     
     minute_like = [k for k in all_keys if ("minute" in k.lower() or k.lower() in ("min", "mins", "minutes"))]
     minute_like_sorted = sorted(minute_like, key=lambda s: (("90" in s) or ("per_90" in s) or ("90s" in s)))
-    print(f"📋 Phát hiện cột phút: {minute_like_sorted if minute_like_sorted else '(không thấy)'}")
+    print(f"Phát hiện cột phút: {minute_like_sorted if minute_like_sorted else '(không thấy)'}")
     
     filtered = {}
     for key, data in master.items():
@@ -196,13 +201,14 @@ def filter_min_over_90(master):
         if minutes is not None and minutes > MIN_MINUTES_THRESHOLD:
             filtered[key] = data
     
-    print(f"✅ {len(filtered)} cầu thủ có > {MIN_MINUTES_THRESHOLD} phút.")
+    print(f"{len(filtered)} cầu thủ có > {MIN_MINUTES_THRESHOLD} phút.")
     return filtered
 
 
 def write_sqlite(db_path, table_name, records):
+    """Ghi dữ liệu vào SQLite database"""
     if not records:
-        print("[SQLITE] Không có bản ghi để ghi.")
+        print("Không có bản ghi để ghi.")
         return
     
     all_cols = set()
@@ -254,83 +260,84 @@ def write_sqlite(db_path, table_name, records):
     cur.executemany(f"INSERT INTO [{table_name}] VALUES ({placeholders});", batch)
     conn.commit()
     conn.close()
-    print(f"[SQLITE] ✅ Đã ghi {len(records)} bản ghi vào {db_file_short(db_path)} (bảng {table_name})")
+    print(f"Đã ghi {len(records)} bản ghi vào {db_file_short(db_path)} (bảng {table_name})")
 
 
 def db_file_short(p):
+    """Lấy tên file từ đường dẫn đầy đủ"""
     return p.split("/")[-1].split("\\")[-1]
 
 
-def curate_keep_columns(df_cols):
-    base = [
-        "player","squad","age","birth_year","nation","position",
-        "standard__games","standard__games_starts","standard__minutes","standard__npxg",
-        "standard__xg","standard__xg_assist","standard__progressive_passes",
-        "standard__progressive_carries","standard__progressive_passes_received",
-        "standard__goals","standard__assists","standard__goals_assists",
-        "standard__cards_yellow","standard__cards_red",
-    ]
+def find_duplicate_columns(df):
+    """Tìm các cột có dữ liệu trùng lặp"""
+    print("\nĐang tìm các cột có dữ liệu trùng lặp...")
+    
+    duplicate_pairs = {}
+    columns = list(df.columns)
+    protected_cols = ["player", "squad", "age", "birth_year", "nation", "position"]
+    
+    for i in range(len(columns)):
+        for j in range(i + 1, len(columns)):
+            col1, col2 = columns[i], columns[j]
+            
+            if col1 in duplicate_pairs or col2 in duplicate_pairs:
+                continue
+            
+            try:
+                series1 = df[col1].astype(str).str.strip()
+                series2 = df[col2].astype(str).str.strip()
+                
+                match_count = (series1 == series2).sum()
+                total_count = len(df)
+                match_ratio = match_count / total_count if total_count > 0 else 0
+                
+                if match_ratio >= 0.95:
+                    if col1 in protected_cols:
+                        keep, remove = col1, col2
+                    elif col2 in protected_cols:
+                        keep, remove = col2, col1
+                    elif "__" not in col1 and "__" in col2:
+                        keep, remove = col1, col2
+                    elif "__" not in col2 and "__" in col1:
+                        keep, remove = col2, col1
+                    elif col1.startswith("standard__") and not col2.startswith("standard__"):
+                        keep, remove = col1, col2
+                    elif col2.startswith("standard__") and not col1.startswith("standard__"):
+                        keep, remove = col2, col1
+                    else:
+                        keep, remove = (col1, col2) if len(col1) <= len(col2) else (col2, col1)
+                    
+                    duplicate_pairs[remove] = keep
+                    print(f"  Phát hiện trùng lặp ({match_ratio*100:.1f}%): '{remove}' => '{keep}'")
+            
+            except Exception:
+                continue
+    
+    if not duplicate_pairs:
+        print("  Không tìm thấy cột trùng lặp nào!")
+    else:
+        print(f"\n  Tổng cộng: {len(duplicate_pairs)} cột sẽ bị loại bỏ")
+    
+    return duplicate_pairs
 
-    shooting = [
-        "shooting__shots","shooting__shots_on_target","shooting__shots_per90",
-        "shooting__npxg_net","shooting__xg_net",
-    ]
 
-    passing = [
-        "passing__passes_completed_short","passing__passes_completed_medium","passing__passes_completed_long",
-        "passing__passes_pct_short","passing__passes_pct_medium","passing__passes_pct",
-        "passing__passes_long","passing__passes_into_final_third","passing__passes_into_penalty_area",
-        "passing__pass_xa","passing__xg_assist_net","passing__passes_progressive_distance",
-        "passing__passes_total_distance","passing__assisted_shots",
-    ]
-
-    passtypes = [
-        "passing_types__through_balls","passing_types__passes_switches",
-        "passing_types__corner_kicks","passing_types__corner_kicks_in",
-        "passing_types__corner_kicks_out","passing_types__passes_blocked",
-        "passing_types__passes_live","passing_types__passes_dead",
-    ]
-
-    gca = [
-        "gca__gca","gca__gca_passes_live","gca__sca","gca__sca_per90",
-        "gca__sca_shots","gca__sca_take_ons","gca__sca_fouled",
-    ]
-
-    possession = [
-        "possession__touches","possession__touches_live_ball",
-        "possession__touches_att_3rd","possession__touches_att_pen_area",
-        "possession__touches_def_3rd","possession__touches_mid_3rd",
-        "possession__carries","possession__carries_progressive_distance",
-        "possession__carries_into_final_third","possession__carries_into_penalty_area",
-        "possession__passes_received","possession__take_ons","possession__take_ons_won",
-        "possession__take_ons_tackled","possession__miscontrols","possession__dispossessed",
-    ]
-
-    defense = [
-        "defense__tackles","defense__tackles_def_3rd","defense__tackles_mid_3rd",
-        "defense__tackles_att_3rd","defense__tackles_interceptions",
-        "defense__blocks","defense__blocked_shots","defense__blocked_passes",
-        "defense__clearances","defense__errors","defense__challenges","defense__challenges_lost",
-        "defense__challenge_tackles","defense__interceptions",
-    ]
-
-    misc = [
-        "misc__fouls","misc__fouled","misc__offsides","misc__aerials_won",
-        "misc__aerials_lost","misc__ball_recoveries",
-    ]
-
-    gk = [
-        "goalkeeping__minutes_90s","goalkeeping_adv__minutes_90s",
-        "goalkeeping__gk_saves","goalkeeping__gk_save_pct",
-        "goalkeeping__gk_goals_against","goalkeeping__gk_pens_allowed",
-    ]
-
-    wish = base + shooting + passing + passtypes + gca + possession + defense + misc + gk
-    return [c for c in wish if c in df_cols or c.replace("standard__", "") in df_cols]
+def remove_duplicate_columns(df):
+    """Loại bỏ các cột trùng lặp khỏi DataFrame"""
+    duplicate_pairs = find_duplicate_columns(df)
+    
+    if duplicate_pairs:
+        cols_to_remove = list(duplicate_pairs.keys())
+        print(f"\nĐang xóa {len(cols_to_remove)} cột trùng lặp...")
+        df_cleaned = df.drop(columns=cols_to_remove)
+        print(f"  Đã xóa: {', '.join(cols_to_remove[:10])}{'...' if len(cols_to_remove) > 10 else ''}")
+        return df_cleaned, duplicate_pairs
+    
+    return df, {}
 
 
 def main():
-    print("=== Thu thập & lọc dữ liệu cầu thủ Premier League 2024–2025 ===")
+    """Hàm chính: Crawl dữ liệu từ FBref và lưu vào SQLite"""
+    print("=== Thu thập & lọc dữ liệu cầu thủ Premier League 2024-2025 ===")
     driver = build_driver()
     master = defaultdict(dict)
 
@@ -349,17 +356,17 @@ def main():
             
             table_html = extract_table_html_from_container(driver, container_id, table_id)
             if not table_html:
-                print(f"  ⚠ Không tách được bảng {table_id}")
+                print(f"  Không tách được bảng {table_id}")
                 continue
             
             rows = parse_table_html(table_html, page_tag)
-            print(f"  ✓ {len(rows)} dòng")
+            print(f"  {len(rows)} dòng")
             merge_stats(master, rows, page_tag)
             human_pause(0.8, 1.4)
         
         filtered = filter_min_over_90(master)
         if not filtered:
-            print("[!] Không có cầu thủ nào qua ngưỡng phút – kiểm tra lại cột minutes.")
+            print("Không có cầu thủ nào qua ngưỡng phút - kiểm tra lại cột minutes.")
             return
         
         df = pd.DataFrame(list(filtered.values()))
@@ -377,14 +384,23 @@ def main():
         if "player_link" in df.columns:
             df = df.drop(columns=["player_link"])
         
+        print(f"\nTổng cột trước khi lọc trùng lặp: {len(df.columns)}")
+        df, duplicate_info = remove_duplicate_columns(df)
+        print(f"Tổng cột sau khi lọc trùng lặp: {len(df.columns)}")
+        
         base_heads = ["player","squad","age","birth_year","nation","position"]
         ordered = [c for c in base_heads if c in df.columns] + [c for c in sorted(df.columns) if c not in base_heads]
         df = df.loc[:, ordered]
         
-        print(f"\n[+] Tổng cột (giữ tất cả): {len(df.columns)}")
+        if duplicate_info:
+            print("\nBáo cáo các cột đã xóa do trùng lặp:")
+            for removed, kept in list(duplicate_info.items())[:20]:
+                print(f"  '{removed}' -> giữ lại '{kept}'")
+            if len(duplicate_info) > 20:
+                print(f"  ... và {len(duplicate_info) - 20} cột khác")
         
         write_sqlite(DB_FILE, OUT_TABLE, df.to_dict(orient="records"))
-        print(f"\n📊 Dữ liệu đã được lưu: {DB_FILE}")
+        print(f"\nDữ liệu đã được lưu: {DB_FILE}")
 
     finally:
         try:
