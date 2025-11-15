@@ -1,0 +1,227 @@
+metric;top_team;value
+age;Newcastle Utd;28,01
+assists;Everton;1,44
+assists_per90;Everton;0,2
+birth_year;Everton;2000,53
+cards_red;Fulham;0,18
+cards_yellow;Everton;2,82
+defense__blocked_passes;Bournemouth;7,45
+defense__blocked_shots;Brighton;4,96
+defense__blocks;Brighton;11,38
+defense__challenge_tackles;Arsenal;8,34
+defense__challenge_tackles_pct;Chelsea;59,05
+defense__challenges_lost;Nott'ham Forest;11,3
+defense__challenges;Nott'ham Forest;19,54
+defense__clearances;Nott'ham Forest;29,7
+defense__errors;Southampton;1,22
+defense__interceptions;Nott'ham Forest;8,56
+defense__minutes_90s;Wolves;8,31
+defense__tackles_att_3rd;Arsenal;3,02
+defense__tackles_def_3rd;Nott'ham Forest;11,1
+defense__tackles_interceptions;Nott'ham Forest;27,36
+defense__tackles;Nott'ham Forest;18,8
+defense__tackles_mid_3rd;Nott'ham Forest;6,4
+defense__tackles_won;Nott'ham Forest;11,02
+games;Fulham;19,51
+games_starts;Arsenal;8,47
+gca__defense;Chelsea;0,18
+gca__fouled;Leicester City;0,34
+gca__gca;Brighton;2,85
+gca__minutes_90s;Wolves;8,31
+gca__passes_dead;Brentford;0,67
+gca__passes_live;Everton;2,22
+gca__per90;Brentford;0,38
+gca__sca_defense;Bournemouth;0,74
+gca__sca_fouled;Leicester City;1,18
+gca__sca;Fulham;20,87
+gca__sca_passes_dead;Brentford;5,13
+gca__sca_passes_live;Fulham;15,39
+gca__sca_per90;Fulham;3,37
+gca__sca_shots;Fulham;2,0
+gca__sca_take_ons;Arsenal;1,81
+gca__shots;West Ham;0,95
+gca__take_ons;Wolves;0,37
+goalkeeping__gk_clean_sheets;Newcastle Utd;1,2
+goalkeeping__gk_clean_sheets_pct;Newcastle Utd;11,98
+goalkeeping__gk_games_starts;Newcastle Utd;2,41
+goalkeeping__gk_goals_against;Leicester City;3,25
+goalkeeping__gk_goals_against_per90;Tottenham;0,43
+goalkeeping__gk_losses;Leicester City;1,18
+goalkeeping__gk_minutes;Newcastle Utd;215,27
+goalkeeping__gk_pens_allowed;Tottenham;0,23
+goalkeeping__gk_pens_att;Tottenham;0,23
+goalkeeping__gk_pens_missed;Arsenal;0,0
+goalkeeping__gk_pens_save_pct;Liverpool;20,98
+goalkeeping__gk_pens_saved;Liverpool;0,21
+goalkeeping__gk_save_pct;Newcastle Utd;16,96
+goalkeeping__gk_saves;Newcastle Utd;6,99
+goalkeeping__gk_shots_on_target_against;Newcastle Utd;9,89
+goalkeeping__gk_ties;Liverpool;0,42
+goalkeeping__gk_wins;Newcastle Utd;1,68
+goalkeeping__minutes_90s;Newcastle Utd;2,41
+goalkeeping_adv__gk_avg_distance_def_actions;Newcastle Utd;3,67
+goalkeeping_adv__gk_corner_kick_goals_against;Wolves;0,51
+goalkeeping_adv__gk_crosses;Leicester City;32,76
+goalkeeping_adv__gk_crosses_stopped;Newcastle Utd;2,42
+goalkeeping_adv__gk_crosses_stopped_pct;Newcastle Utd;1,9
+goalkeeping_adv__gk_def_actions_outside_pen_area;Newcastle Utd;2,67
+goalkeeping_adv__gk_def_actions_outside_pen_area_per90;Newcastle Utd;0,26
+goalkeeping_adv__gk_free_kick_goals_against;Bournemouth;0,11
+goalkeeping_adv__gk_goal_kick_length_avg;Leicester City;11,09
+goalkeeping_adv__gk_goal_kicks;Newcastle Utd;14,24
+goalkeeping_adv__gk_goals_against;Leicester City;3,25
+goalkeeping_adv__gk_own_goals_against;Tottenham;0,2
+goalkeeping_adv__gk_passes_completed_launched;Leicester City;11,21
+goalkeeping_adv__gk_passes_launched;Leicester City;38,06
+goalkeeping_adv__gk_passes_length_avg;Leicester City;7,46
+goalkeeping_adv__gk_passes;Liverpool;76,87
+goalkeeping_adv__gk_passes_pct_launched;Tottenham;7,1
+goalkeeping_adv__gk_passes_throws;Newcastle Utd;13,04
+goalkeeping_adv__gk_pct_goal_kicks_launched;Leicester City;16,21
+goalkeeping_adv__gk_pct_passes_launched;Leicester City;9,91
+goalkeeping_adv__gk_pens_allowed;Tottenham;0,23
+goalkeeping_adv__gk_psnpxg_per_shot_on_target_against;Newcastle Utd;0,08
+goalkeeping_adv__gk_psxg;Newcastle Utd;3,11
+goalkeeping_adv__gk_psxg_net;Bournemouth;0,58
+goalkeeping_adv__gk_psxg_net_per90;Bournemouth;0,15
+goalkeeping_adv__minutes_90s;Newcastle Utd;2,41
+goals_assists;Fulham;4,12
+goals_assists_pens_per90;Fulham;0,49
+goals_assists_per90;Fulham;0,49
+goals;Fulham;3,35
+goals_pens;Fulham;3,35
+goals_pens_per90;Fulham;0,38
+goals_per90;Fulham;0,38
+minutes_90s;Wolves;8,31
+misc__aerials_lost;Fulham;22,04
+misc__aerials_won;Fulham;21,49
+misc__aerials_won_pct;Newcastle Utd;60,31
+misc__ball_recoveries;Nott'ham Forest;34,76
+misc__cards_red;Fulham;0,18
+misc__cards_yellow;Everton;2,82
+misc__cards_yellow_red;Nott'ham Forest;0,08
+misc__crosses;Arsenal;18,65
+misc__fouled;Fulham;14,23
+misc__fouls;Nott'ham Forest;12,04
+misc__interceptions;Nott'ham Forest;8,56
+misc__minutes_90s;Wolves;8,31
+misc__offsides;Arsenal;3,76
+misc__own_goals;Wolves;0,31
+misc__pens_conceded;Southampton;0,29
+misc__pens_won;Brighton;0,23
+misc__tackles_won;Nott'ham Forest;11,02
+npxg;Fulham;2,2
+npxg_per90;Fulham;0,26
+npxg_xg_assist;Fulham;2,96
+npxg_xg_assist_per90;Fulham;0,38
+passing__assisted_shots;West Ham;9,37
+passing__assists;Everton;1,44
+passing__crosses_into_penalty_area;Arsenal;2,26
+passing__minutes_90s;Wolves;8,31
+passing__pass_xa;West Ham;0,9
+passing__passes_completed_long;Wolves;31,91
+passing__passes_completed;Manchester City;460,58
+passing__passes_completed_medium;Manchester City;188,2
+passing__passes_completed_short;Manchester City;247,37
+passing__passes_into_final_third;Manchester City;38,77
+passing__passes_into_penalty_area;Arsenal;10,67
+passing__passes_long;Liverpool;66,89
+passing__passes;Manchester City;513,76
+passing__passes_medium;Manchester City;204,31
+passing__passes_pct_long;Fulham;68,99
+passing__passes_pct;Manchester City;89,25
+passing__passes_pct_medium;Chelsea;92,28
+passing__passes_pct_short;Liverpool;94,78
+passing__passes_progressive_distance;Liverpool;2443,2
+passing__passes_short;Manchester City;261,05
+passing__passes_total_distance;Manchester City;7315,78
+passing__progressive_passes;Manchester City;40,68
+passing__xg_assist;West Ham;1,25
+passing__xg_assist_net;Everton;0,73
+passing_types__corner_kicks_in;Liverpool;6,57
+passing_types__corner_kicks;Liverpool;8,64
+passing_types__corner_kicks_out;Brighton;2,43
+passing_types__corner_kicks_straight;Newcastle Utd;0,22
+passing_types__crosses;Arsenal;18,65
+passing_types__minutes_90s;Wolves;8,31
+passing_types__passes_blocked;Leicester City;9,33
+passing_types__passes_completed;Manchester City;460,58
+passing_types__passes_dead;Liverpool;52,1
+passing_types__passes_free_kicks;Liverpool;11,96
+passing_types__passes_live;Manchester City;478,25
+passing_types__passes;Manchester City;513,76
+passing_types__passes_offsides;Wolves;2,41
+passing_types__passes_switches;Wolves;3,33
+passing_types__through_balls;Ipswich Town;1,97
+passing_types__throw_ins;Brentford;27,63
+pens_att;Aston Villa;0,34
+pens_made;Tottenham;0,17
+playing_time__games_starts;Arsenal;8,47
+playing_time__games_subs;Fulham;14,11
+playing_time__minutes_90s;Wolves;8,31
+playing_time__minutes;Wolves;736,02
+playing_time__minutes_pct;Wolves;21,88
+playing_time__minutes_per_game;Tottenham;63,55
+playing_time__minutes_per_start;Manchester City;81,22
+playing_time__minutes_per_sub;Aston Villa;27,88
+playing_time__on_goals_against;Wolves;18,94
+playing_time__on_goals_for;Arsenal;16,18
+playing_time__on_xg_against;Ipswich Town;15,24
+playing_time__on_xg_for;Liverpool;15,83
+playing_time__plus_minus;Arsenal;10,21
+playing_time__plus_minus_per90;Arsenal;1,24
+playing_time__plus_minus_wowy;Arsenal;0,42
+playing_time__points_per_game;Liverpool;2,17
+playing_time__unused_subs;Liverpool;16,39
+playing_time__xg_plus_minus;Arsenal;7,43
+playing_time__xg_plus_minus_per90;Arsenal;0,91
+playing_time__xg_plus_minus_wowy;Manchester Utd;0,4
+possession__carries_distance;Manchester City;1923,49
+possession__carries_into_final_third;Arsenal;13,8
+possession__carries_into_penalty_area;Arsenal;7,69
+possession__carries;Manchester City;357,82
+possession__carries_progressive_distance;Manchester City;1011,99
+possession__dispossessed;Everton;11,55
+possession__minutes_90s;Wolves;8,31
+possession__miscontrols;Fulham;19,7
+possession__passes_received;Manchester City;429,22
+possession__progressive_carries;Arsenal;22,8
+possession__progressive_passes_received;Arsenal;50,14
+possession__take_ons;Arsenal;23,16
+possession__take_ons_tackled;Tottenham;11,2
+possession__take_ons_tackled_pct;Crystal Palace;60,62
+possession__take_ons_won;Arsenal;12,38
+possession__take_ons_won_pct;Everton;53,98
+possession__touches_att_3rd;Arsenal;212,69
+possession__touches_att_pen_area;Fulham;31,99
+possession__touches_def_3rd;Liverpool;216,07
+possession__touches_def_pen_area;Liverpool;90,28
+possession__touches_live_ball;Manchester City;577,92
+possession__touches;Manchester City;577,92
+possession__touches_mid_3rd;Manchester City;296,12
+progressive_carries;Arsenal;22,8
+progressive_passes;Manchester City;40,68
+progressive_passes_received;Arsenal;50,14
+ranker;Southampton;378,3
+shooting__goals;Fulham;3,35
+shooting__goals_per_shot;Manchester City;0,17
+shooting__goals_per_shot_on_target;Manchester City;0,33
+shooting__minutes_90s;Wolves;8,31
+shooting__npxg;Fulham;2,2
+shooting__npxg_net;Fulham;1,15
+shooting__npxg_per_shot;Chelsea;0,12
+shooting__pens_att;Aston Villa;0,34
+shooting__pens_made;Tottenham;0,17
+shooting__shots_free_kicks;Brighton;0,77
+shooting__shots;Fulham;17,6
+shooting__shots_on_target;Fulham;8,16
+shooting__shots_on_target_pct;Nott'ham Forest;39,17
+shooting__shots_on_target_per90;Fulham;0,99
+shooting__shots_per90;Fulham;2,3
+shooting__xg;Fulham;2,2
+shooting__xg_net;Fulham;1,15
+xg_assist;West Ham;1,25
+xg_assist_per90;West Ham;0,16
+xg;Fulham;2,2
+xg_per90;Aston Villa;0,29
+xg_xg_assist_per90;Aston Villa;0,38
